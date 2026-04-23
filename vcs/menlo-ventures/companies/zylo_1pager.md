@@ -1,7 +1,7 @@
-# [Company Name] — 1-Pager
-**Portfolio:** Menlo Ventures · **Stage:** Seed / Series A / Series B  
-**Sector:** [e.g. AI Infrastructure / Fintech / Healthcare / Consumer]  
-**Last Updated:** YYYY-MM-DD · **Researched By:** [Your Name]
+# Zylo — 1-Pager
+**Portfolio:** Menlo Ventures · **Stage:** Series C+
+**Sector:** SaaS Management Plan (B2b SaaS)
+**Last Updated:** YYYY-MM-DD · **Researched By:** Chris 
 
 ---
 
@@ -22,7 +22,7 @@
 ## 🎯 What They Do
 *One sentence: Who is the customer, what problem do they solve, and how?*
 
-> [Write a 2–3 sentence plain-English description of the product. What does a user/customer actually do with it? Avoid marketing language.]
+Customers use this to track SaaS spend. I think this is probably for 
 
 ---
 
@@ -94,16 +94,17 @@
 **Thesis:** [In 1–2 sentences, why did Menlo bet on this?]
 
 **What I find compelling:**
-- 
+- They may have a market opening as AI spend continues to increase, possibly even eclipsing staff spend
 - 
 
 **Open questions / risks:**
-- 
+- They probably don't have a path to liquidity — they recently raised from a 
 - 
 
 **Opportunity angle:** [Would I reach out to work with them? Is there a competitor gap here? What would I need to believe to start something adjacent?]
 
-**Interest level:** ⭐⭐⭐☆☆ *(1–5 stars)*  
+**Interest level - found a competitor:** ⭐⭐⭐⭐☆ *(1–5 stars)*  
+**Interest level - join :⭐⭐☆☆☆ *(1–5 stars)*  
 **Next action:** [e.g. Follow up in 3 months / Reach out to founder / Research competitor X / Pass]
 
 ---
