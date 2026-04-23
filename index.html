@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menlo Ventures — Portfolio Research</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-2: #3a3a3a;
+    --ink-3: #6b6b6b;
+    --ink-4: #a0a0a0;
+    --paper: #faf9f6;
+    --paper-2: #f2f0ea;
+    --paper-3: #e8e5dc;
+    --accent: #c5401a;
+    --accent-soft: #faf0ed;
+    --green: #1a6b3a;
+    --green-soft: #edf5f0;
+    --amber: #8a5a0a;
+    --amber-soft: #fdf5e8;
+    --blue: #1a3a6b;
+    --blue-soft: #edf0f8;
+    --border: rgba(0,0,0,0.1);
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: 80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  header h1 em {
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  /* ── Controls bar ── */
+  .controls-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .controls-inner { max-width: 900px; margin: 0 auto; width: 100%; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .search-wrap {
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    background: var(--paper);
+    color: var(--ink);
+    outline: none;
+  }
+  .search-wrap input:focus { border-color: var(--ink-3); }
+  .search-icon {
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    width: 14px; height: 14px;
+    color: var(--ink-4);
+  }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+  .filter-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .count-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-4);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* ── Main content ── */
+  main { max-width: 900px; margin: 0 auto; padding: 32px 40px 80px; }
+
+  /* ── Empty state ── */
+  .onboarding-card {
+    border: 1px dashed var(--paper-3);
+    border-radius: 12px;
+    padding: 48px 40px;
+    text-align: center;
+    background: #fff;
+    margin-bottom: 32px;
+  }
+  .onboarding-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .onboarding-card p { font-size: 14px; color: var(--ink-3); max-width: 460px; margin: 0 auto 24px; line-height: 1.7; }
+  .step-list { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  .step-item {
+    background: var(--paper-2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+    width: 180px;
+  }
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-4);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .step-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+
+  /* ── Company cards ── */
+  .companies-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .company-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .company-card:hover {
+    box-shadow: var(--shadow);
+    border-color: rgba(0,0,0,0.15);
+  }
+  .company-card.placeholder {
+    border-style: dashed;
+    border-color: var(--paper-3);
+    opacity: 0.7;
+  }
+  .card-left {}
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .company-initials {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--paper-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-3);
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+  .company-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .company-tagline {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .card-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .badge-stage-seed { background: var(--amber-soft); color: var(--amber); }
+  .badge-stage-a    { background: var(--blue-soft);  color: var(--blue); }
+  .badge-stage-b    { background: var(--green-soft); color: var(--green); }
+  .badge-sector     { background: var(--paper-2); color: var(--ink-3); }
+  .badge-interest-5 { background: #fdf2f0; color: #b03015; }
+  .badge-interest-4 { background: #f0fdf4; color: #166534; }
+  .badge-interest-3 { background: var(--paper-2); color: var(--ink-3); }
+  .badge-new { background: var(--accent-soft); color: var(--accent); }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .stars {
+    font-size: 12px;
+    color: var(--ink-4);
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+  .stars .filled { color: #d4872a; }
+  .card-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-4);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .card-links { display: flex; gap: 8px; }
+  .card-link {
+    font-size: 12px;
+    color: var(--ink-3);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  .card-link:hover { border-color: var(--ink-3); color: var(--ink); }
+  .card-link.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .card-link.primary:hover { background: #333; }
+
+  .funding-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    padding: 3px 8px;
+    background: var(--paper-2);
+    border-radius: 4px;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .section-sub { font-size: 12px; color: var(--ink-4); }
+
+  /* ── About Menlo box ── */
+  .menlo-box {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .menlo-stat .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 6px;
+  }
+  .menlo-stat .stat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 400;
+  }
+  .menlo-stat .stat-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 3px;
+  }
+
+  /* ── Focus areas ── */
+  .focus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .focus-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .focus-card .focus-icon { font-size: 16px; margin-bottom: 8px; }
+  .focus-card .focus-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .focus-card .focus-desc { font-size: 11px; color: var(--ink-4); line-height: 1.5; }
+
+  /* ── Add company button ── */
+  .add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 18px;
+    border: 1px dashed var(--paper-3);
+    border-radius: 12px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-4);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .add-btn:hover { border-color: var(--ink-4); color: var(--ink-3); background: #fff; }
+
+  /* ── Hidden state ── */
+  .hidden { display: none; }
+
+  @media (max-width: 600px) {
+    header { padding: 32px 20px 28px; }
+    main { padding: 24px 20px 60px; }
+    .controls-bar { padding: 12px 20px; }
+    .menlo-box { grid-template-columns: 1fr; gap: 16px; }
+    .company-card { grid-template-columns: 1fr; }
+    .card-right { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <p class="header-eyebrow">Portfolio Research &nbsp;/&nbsp; Personal Intelligence</p>
+    <h1>Menlo Ventures<br><em>Company Intelligence</em></h1>
+    <div class="header-meta">
+      <span><span class="dot"></span> Founded 1976 · Menlo Park, CA</span>
+      <span>$7B+ AUM &nbsp;·&nbsp; 466+ portfolio companies</span>
+      <span>All in on AI · Enterprise · Consumer · Healthcare</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls-bar">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l3 3"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search companies, sectors..." oninput="filterCards()">
+    </div>
+    <div class="filter-group">
+      <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+      <button class="filter-btn" onclick="setFilter('seed', this)">Seed</button>
+      <button class="filter-btn" onclick="setFilter('series-a', this)">Series A</button>
+      <button class="filter-btn" onclick="setFilter('series-b', this)">Series B</button>
+      <button class="filter-btn" onclick="setFilter('ai', this)">AI</button>
+      <button class="filter-btn" onclick="setFilter('fintech', this)">Fintech</button>
+      <button class="filter-btn" onclick="setFilter('healthcare', this)">Healthcare</button>
+    </div>
+    <span class="count-label" id="countLabel">0 companies</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- Menlo stats -->
+  <div class="menlo-box">
+    <div class="menlo-stat">
+      <div class="stat-label">Assets Under Mgmt</div>
+      <div class="stat-value">$7B+</div>
+      <div class="stat-note">Active Fund XV — $500M early-stage</div>
+    </div>
+    <div class="menlo-stat">
+      <div class="stat-label">Portfolio Companies</div>
+      <div class="stat-value">466+</div>
+      <div class="stat-note">25 unicorns · 85+ public companies</div>
+    </div>
+    <div class="menlo-stat">
+      <div class="stat-label">Thesis Focus</div>
+      <div class="stat-value">AI-first</div>
+      <div class="stat-note">$37B enterprise AI spend in 2025 (3.2x YoY)</div>
+    </div>
+  </div>
+
+  <!-- Investment focus areas -->
+  <div class="section-header">
+    <span class="section-title">Investment Focus</span>
+    <span class="section-sub">Current thesis areas</span>
+  </div>
+  <div class="focus-grid" style="margin-bottom: 36px;">
+    <div class="focus-card">
+      <div class="focus-icon">◈</div>
+      <div class="focus-name">AI Infrastructure</div>
+      <div class="focus-desc">Foundation models, tooling, observability</div>
+    </div>
+    <div class="focus-card">
+      <div class="focus-icon">◉</div>
+      <div class="focus-name">Enterprise AI</div>
+      <div class="focus-desc">Vertical AI, agentic workflows, coding</div>
+    </div>
+    <div class="focus-card">
+      <div class="focus-icon">◐</div>
+      <div class="focus-name">Cybersecurity</div>
+      <div class="focus-desc">AI-native security, new threat categories</div>
+    </div>
+    <div class="focus-card">
+      <div class="focus-icon">◑</div>
+      <div class="focus-name">Healthcare</div>
+      <div class="focus-desc">AI in health — 2.2x rate vs. economy</div>
+    </div>
+    <div class="focus-card">
+      <div class="focus-icon">◒</div>
+      <div class="focus-name">Consumer AI</div>
+      <div class="focus-desc">Intelligence in everyday products</div>
+    </div>
+    <div class="focus-card">
+      <div class="focus-icon">◓</div>
+      <div class="focus-name">Fintech</div>
+      <div class="focus-desc">Financial convergence, embedded finance</div>
+    </div>
+  </div>
+
+  <!-- Company 1-pagers -->
+  <div class="section-header">
+    <span class="section-title">Company Research</span>
+    <span class="section-sub">Your 1-pagers — add as you go</span>
+  </div>
+
+  <!-- ONBOARDING STATE — shows when no companies added -->
+  <div class="onboarding-card" id="onboardingCard">
+    <h2>Start your first 1-pager</h2>
+    <p>Use the template and prompts in your <code style="font-family: 'DM Mono', monospace; font-size: 12px; background: #f5f5f5; padding: 2px 6px; border-radius: 4px;">/research/templates/</code> folder to research your first Menlo company. Then add it below.</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">01 — FIND</div>
+        <div class="step-text">Browse menlovc.com/portfolio or Crunchbase</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02 — GATHER</div>
+        <div class="step-text">30-min research sprint using the checklist in research-prompts.md</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03 — DRAFT</div>
+        <div class="step-text">Paste notes + Prompt 1 into Claude</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04 — SAVE</div>
+        <div class="step-text">Save as /research/companies/[name]/1pager.md</div>
+      </div>
+    </div>
+    <p style="font-size: 12px; color: #bbb; margin-bottom: 0;">Suggested starting points from Menlo's recent portfolio: Neon · Higgsfield AI · Daze · Abnormal Security · Pinecone</p>
+  </div>
+
+  <!-- COMPANIES GRID — populated by JS -->
+  <div class="companies-grid" id="companiesGrid"></div>
+
+  <!-- ADD BUTTON -->
+  <button class="add-btn" onclick="showAddForm()">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M7 1v12M1 7h12"/>
+    </svg>
+    Add a company
+  </button>
+
+  <!-- ADD FORM (hidden by default) -->
+  <div id="addForm" class="hidden" style="background:#fff; border:1px solid var(--border); border-radius:12px; padding:24px; margin-top:16px;">
+    <h3 style="font-family:'DM Serif Display',serif; font-size:18px; font-weight:400; margin-bottom:20px;">Add company</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+      <div>
+        <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Company Name *</label>
+        <input id="f_name" type="text" placeholder="e.g. Neon" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+      </div>
+      <div>
+        <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Tagline</label>
+        <input id="f_tagline" type="text" placeholder="One-sentence description" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+      </div>
+      <div>
+        <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Stage</label>
+        <select id="f_stage" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+          <option value="seed">Seed</option>
+          <option value="series-a">Series A</option>
+          <option value="series-b">Series B</option>
+          <option value="series-c">Series C+</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Sector</label>
+        <input id="f_sector" type="text" placeholder="e.g. AI Infrastructure" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+      </div>
+      <div>
+        <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Total Raised</label>
+        <input id="f_funding" type="text" placeholder="e.g. $24M" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+      </div>
+      <div>
+        <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Interest (1–5)</label>
+        <select id="f_interest" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+          <option value="5">★★★★★ Very high</option>
+          <option value="4">★★★★☆ High</option>
+          <option value="3" selected>★★★☆☆ Medium</option>
+          <option value="2">★★☆☆☆ Low</option>
+          <option value="1">★☆☆☆☆ Pass</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">1-Pager File Path</label>
+      <input id="f_path" type="text" placeholder="companies/company-name/1pager.md" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Mono',monospace; font-size:13px; background:var(--paper); color:var(--ink); outline:none;">
+    </div>
+    <div style="margin-bottom:20px;">
+      <label style="font-size:11px; color:var(--ink-4); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.08em; font-family:'DM Mono',monospace;">Next Action</label>
+      <input id="f_action" type="text" placeholder="e.g. Reach out to founder / Research competitor X / Revisit in 3 months" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:var(--paper); color:var(--ink); outline:none;">
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button onclick="hideAddForm()" style="padding:8px 16px; border:1px solid var(--border); border-radius:6px; background:transparent; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--ink-3); cursor:pointer;">Cancel</button>
+      <button onclick="addCompany()" style="padding:8px 16px; border:none; border-radius:6px; background:var(--ink); font-family:'DM Sans',sans-serif; font-size:13px; color:#fff; cursor:pointer; font-weight:500;">Save company</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ── Data ──
+  let companies = JSON.parse(localStorage.getItem('menlo_companies') || '[]');
+  let activeFilter = 'all';
+
+  // ── Render ──
+  function stageLabel(s) {
+    const map = { seed: 'Seed', 'series-a': 'Series A', 'series-b': 'Series B', 'series-c': 'Series C+', unknown: '?' };
+    return map[s] || s;
+  }
+  function stageBadgeClass(s) {
+    const map = { seed: 'badge-stage-seed', 'series-a': 'badge-stage-a', 'series-b': 'badge-stage-b' };
+    return map[s] || 'badge-sector';
+  }
+  function initials(name) {
+    return name.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+  }
+  function stars(n) {
+    let s = '';
+    for (let i = 1; i <= 5; i++) {
+      s += `<span class="${i <= n ? 'filled' : ''}">${i <= n ? '★' : '☆'}</span>`;
+    }
+    return s;
+  }
+  function interestBadgeClass(n) {
+    if (n >= 5) return 'badge-interest-5';
+    if (n >= 4) return 'badge-interest-4';
+    return 'badge-interest-3';
+  }
+  function formatDate(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function renderCard(c, idx) {
+    const ageMs = Date.now() - new Date(c.date);
+    const isNew = ageMs < 1000 * 60 * 60 * 24 * 3;
+    return `
+    <div class="company-card" data-idx="${idx}" data-stage="${c.stage}" data-sector="${(c.sector||'').toLowerCase()}">
+      <div class="card-left">
+        <div class="card-header">
+          <div class="company-initials">${initials(c.name)}</div>
+          <div>
+            <div class="company-name">${c.name}</div>
+          </div>
+          ${isNew ? '<span class="badge badge-new" style="margin-left:4px;">New</span>' : ''}
+        </div>
+        <div class="company-tagline">${c.tagline || '<span style="color:var(--ink-4);font-style:italic;">No description yet</span>'}</div>
+        <div class="card-meta">
+          <span class="badge ${stageBadgeClass(c.stage)}">${stageLabel(c.stage)}</span>
+          ${c.sector ? `<span class="badge badge-sector">${c.sector}</span>` : ''}
+          ${c.funding ? `<span class="funding-pill">${c.funding}</span>` : ''}
+        </div>
+        ${c.action ? `<div style="margin-top:12px; font-size:12px; color:var(--ink-4); display:flex; align-items:center; gap:6px;"><span style="color:var(--accent);">→</span> ${c.action}</div>` : ''}
+      </div>
+      <div class="card-right">
+        <div class="stars">${stars(c.interest || 3)}</div>
+        <div class="card-date">${formatDate(c.date)}</div>
+        <div class="card-links">
+          <button class="card-link" onclick="deleteCompany(${idx})" style="color:var(--ink-4);">✕</button>
+          ${c.path ? `<a class="card-link primary" href="${c.path}" target="_blank">1-Pager ↗</a>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderAll() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const grid = document.getElementById('companiesGrid');
+    const onboarding = document.getElementById('onboardingCard');
+
+    let visible = companies.filter((c, idx) => {
+      const matchesSearch = !q || c.name.toLowerCase().includes(q) || (c.tagline||'').toLowerCase().includes(q) || (c.sector||'').toLowerCase().includes(q);
+      const matchesFilter = activeFilter === 'all'
+        || c.stage === activeFilter
+        || (c.sector||'').toLowerCase().includes(activeFilter);
+      return matchesSearch && matchesFilter;
+    });
+
+    grid.innerHTML = visible.map((c, i) => {
+      const realIdx = companies.indexOf(c);
+      return renderCard(c, realIdx);
+    }).join('');
+
+    document.getElementById('countLabel').textContent = `${visible.length} ${visible.length === 1 ? 'company' : 'companies'}`;
+    onboarding.style.display = companies.length === 0 ? '' : 'none';
+  }
+
+  // ── Filters ──
+  function setFilter(val, btn) {
+    activeFilter = val;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAll();
+  }
+  function filterCards() { renderAll(); }
+
+  // ── Add/Delete ──
+  function showAddForm() {
+    document.getElementById('addForm').classList.remove('hidden');
+    document.getElementById('f_name').focus();
+  }
+  function hideAddForm() {
+    document.getElementById('addForm').classList.add('hidden');
+    ['f_name','f_tagline','f_sector','f_funding','f_path','f_action'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f_stage').value = 'seed';
+    document.getElementById('f_interest').value = '3';
+  }
+  function addCompany() {
+    const name = document.getElementById('f_name').value.trim();
+    if (!name) { document.getElementById('f_name').style.borderColor = 'red'; return; }
+    companies.unshift({
+      name,
+      tagline: document.getElementById('f_tagline').value.trim(),
+      stage: document.getElementById('f_stage').value,
+      sector: document.getElementById('f_sector').value.trim(),
+      funding: document.getElementById('f_funding').value.trim(),
+      interest: parseInt(document.getElementById('f_interest').value),
+      path: document.getElementById('f_path').value.trim(),
+      action: document.getElementById('f_action').value.trim(),
+      date: new Date().toISOString()
+    });
+    localStorage.setItem('menlo_companies', JSON.stringify(companies));
+    hideAddForm();
+    renderAll();
+  }
+  function deleteCompany(idx) {
+    if (!confirm(`Remove ${companies[idx].name}?`)) return;
+    companies.splice(idx, 1);
+    localStorage.setItem('menlo_companies', JSON.stringify(companies));
+    renderAll();
+  }
+
+  // ── Init ──
+  renderAll();
+</script>
+
+</body>
+</html>
